@@ -9,7 +9,6 @@ import { ReduxAsyncConnect } from 'redux-async-connect';
 import ApiClient from './api/Api.js';
 import createStore from './store/configureStore.js';
 
-
 const client = new ApiClient();
 const store = createStore(browserHistory, client, window.__data);
 
