@@ -9,8 +9,10 @@ export default class CurrentMatches extends React.Component {
         <h2> Current Matches </h2>
         <hr/>
         <div className="matchList">
-          {this.props.matchList && this.props.matchList.matches.map(function(match){
-            return <MatchCard key={match.unique_id} team1={match['team-1']} team2={match['team-2']}/>;
+          {this.props.matchList && this.props.matchList.matches.map(function(match) {
+            if( match.matchStarted ) {
+              return <MatchCard key={match.unique_id} team1={match['team-1']} team2={match['team-2']}/>;
+            }
           })}
         </div>
       </div>

@@ -8,18 +8,6 @@ import { bindActionCreators } from 'redux';
 import Header from './Header';
 import CurrentMatches from './CurrentMatches';
 
-@asyncConnect([
-  {
-    promise: ({ store: { dispatch, getState } }) => {
-      const promises = [];
-      let p1 = new Promise((resolve, reject) => {
-        setTimeout(resolve, 10, 'p1');
-      });
-      let p2 = dispatch(MatchAction.getCurrentMatchList());
-      return Promise.all(promises);
-    },
-  },
-])
 @connect(
   state => ({
     list: state.MatchReducer.list,
@@ -33,27 +21,55 @@ import CurrentMatches from './CurrentMatches';
     );
   }
 )
-export default
 
-class Dashboard extends React.Component {
+
+
+
+export default class Dashboard extends React.Component {
+
+
 
   constructor(props) {
     super(props);
     this.state = {matchList: []};
   };
 
+
+  dispatchSummaryAction = (myAction) => {
+
+    return (dispatch) => {
+        console.log('--- matchId ---', matchId);
+        dispatch(myAction);
+    }
+  };
+
   componentWillMount() {
     console.log(this.props.getCurrentMatchList());
     console.log('-- props --', this.props);
+
   }
 
   render() {
+
+    if(this.props && this.props.list) {
+      console.log('%%%', this.props);
+      this.dispatchSummaryAction(this.props.list.matches[0].unique_id);
+    }
+
+    const FilterLink = connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )();
+
     return (
       <div>
-      <Header />
-      <div className="container dashboard-container">
-        <CurrentMatches matchList = {this.props.list}/>
-      </div>
+        <div className="container dashboard-container">
+          <div className="row">
+            <div className="col-xs-6">
+              <CurrentMatches matchList = {this.props.list}/>
+            </div>
+          </div>
+        </div>
     </div>
     )
   }
