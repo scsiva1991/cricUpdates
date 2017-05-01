@@ -27,20 +27,9 @@ import CurrentMatches from './CurrentMatches';
 
 export default class Dashboard extends React.Component {
 
-
-
   constructor(props) {
     super(props);
-    this.state = {matchList: []};
-  };
-
-
-  dispatchSummaryAction = (myAction) => {
-
-    return (dispatch) => {
-        console.log('--- matchId ---', matchId);
-        dispatch(myAction);
-    }
+    this.state = {currentMatchList: [], matchSummary: {}};
   };
 
   componentWillMount() {
@@ -52,14 +41,13 @@ export default class Dashboard extends React.Component {
   render() {
 
     if(this.props && this.props.list) {
-      console.log('%%%', this.props);
-      this.dispatchSummaryAction(this.props.list.matches[0].unique_id);
-    }
+      console.log('%%%', this.props.list.matches[0].unique_id, this.props.getMatchSummary(this.props.list.matches[0].unique_id));
 
-    const FilterLink = connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )();
+      let currentMatches = this.props.list.matches.filter(function(match) {
+        return match.matchStarted;
+      });
+      this.props.getMatchSummary(currentMatches[0].unique_id);
+    }
 
     return (
       <div>

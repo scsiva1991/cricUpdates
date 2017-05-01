@@ -4,8 +4,7 @@ const initialState = {
   loaded: false,
 };
 
-export default function reducer(state = initialState, action = {}) {
-  console.log('type ===', action, state);
+export default function reducer(state = initialState, action = {}) { 
   switch (action.type) {
     case LOAD_MATCH_SUMMARY:
       return {
